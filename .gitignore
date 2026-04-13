@@ -44,5 +44,6 @@
 .bak 
 .mtc
 build/
+_minted/
 
 .venv/
