@@ -1,0 +1,182 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage[left=30mm, right=10mm, top=20mm, bottom=20mm]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\usepackage{minted}
+\usepackage{xcolor}
+
+\usepackage{siunitx}
+\usepackage{booktabs}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{tempora}
+\usepackage{type1cm}
+\usepackage{indentfirst}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+\usepackage[russian]{cleveref}
+\usepackage{bookmark}
+
+\onehalfspacing
+
+\renewcommand{\theFancyVerbLine}{%
+	\sffamily\small\color{black}\arabic{FancyVerbLine}%
+}
+
+\definecolor{codebg}{rgb}{0.12,0.12,0.14}
+\definecolor{codeframe}{rgb}{0.40,0.40,0.45}
+\definecolor{keywordcolor}{rgb}{0.45,0.65,1.0}
+\definecolor{stringcolor}{rgb}{1.0,0.55,0.45}
+\definecolor{commentcolor}{rgb}{0.55,0.75,0.60}
+\definecolor{textcolor}{rgb}{0.90,0.90,0.90}
+
+\setminted{
+    bgcolor=codebg,
+	fillcolor=codebg,
+	framesep=1em,
+	frame=single,
+    rulecolor=\color{codeframe},
+    fontsize=\normalsize,
+    baselinestretch=1.1,
+    linenos,
+    numbersep=6pt,
+    tabsize=4,
+    breaklines,
+    breakbytoken,
+	breaksymbolleft={},
+    autogobble,
+    showspaces=false,
+    showtabs=false,
+}
+
+\usemintedstyle{lightbulb}
+\setmintedinline{
+    bgcolor=codebg
+}
+
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{8pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\newcommand{\circledequals}{\mathbin{\tikz \node[draw,circle,inner sep=1pt] {$=$};}}
+
+\DeclareMathOperator{\Bernoulli}{Bernoulli}
+
+\begin{document}
+    \begin{titlepage}
+		\centering
+		
+		\includegraphics{images/FEFU-logo.jpg}\\
+		МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ\\
+		Федеральное государственное автономное образовательное учреждение высшего образования\\
+		\textbf{«Дальневосточный федеральный университет»}
+
+		\rule{\linewidth}{0.8mm}\\[0.3cm]
+		
+		\textbf{ИНСТИТУТ МАТЕМАТИКИ И КОМПЬЮТЕРНЫХ ТЕХНОЛОГИЙ}\\
+		\textbf{Кафедра математического и компьютерного моделирования}\\
+		\vspace*{0.9cm}
+		
+		Кулахсзян Сергей Грайрович\\
+        \vspace*{0.3cm}
+
+		МЕТОДЫ МОМЕНТОВ И МАКСИМАЛЬНОГО ПРАВДОПОДОБИЯ \\
+		\vspace*{0.3cm}
+
+		\textbf{ЛАБОРАТОРНАЯ РАБОТА № 2}\\
+		\vspace*{0.3cm}
+		
+		Направление подготовки 02.03.01сцт Сквозные цифровые технологии,\\ 
+        бакалавриатская программа «Математика и компьютерные науки»\\ 
+        Очной формы обучения\\
+		\vspace{1.5cm}
+
+		
+		\vfill
+		\centering
+		г. Владивосток\\
+		2026
+	\end{titlepage}
+
+    \tableofcontents
+	\newpage
+
+    \section{Выбор распределения}
+
+    Так как по списку мой номер равен 18, то у меня 0-й вариант, что соответствует распределению Бернулли.
+
+    \section{Оценка параметра распределения Бернулли методом моментов}
+
+    Пусть дано распределение: \\
+    $\displaystyle
+    X \sim Bernoulli(p): X_1, X_2, \ldots, X_n \\
+    F_X \in \{F_X(x, p) | p \in [0; 1] \} \\
+    E(X) = p = \overline{x} \\
+    $
+    Оценка параметра $\hat{p}_n = \overline{x}$.
+
+    \section{Оценка параметра распределения Бернулли методом максимального правдоподобия}
+
+    Пусть дано распределение: \\
+    $\displaystyle
+    X \sim Bernoulli(p): X_1, X_2, \ldots, X_n \\
+    F_X \in \{F_X(x, p) | p \in [0; 1] \} \\
+    p_X(x) = p^x (1 - p)^{1 - x} \\
+    L(p, x_1, \ldots, x_n) = \prod_{i = 1}^n p^{x_i} (1 - p)^{1 - x_i} = p^{\displaystyle \sum_{i = 1}^n x_i} (1 - p)^{\displaystyle n - \sum_{i = 1}^n x_i} \\
+    \ln L(p, x_1, \ldots, x_n) = \ln \left( p^{\displaystyle \sum_{i = 1}^n x_i} (1 - p)^{\displaystyle n - \sum_{i = 1}^n x_i} \right) = \\ \sum_{i = 1}^n x_i \ln p + \left( n - \sum_{i = 1}^n x_i \right) \ln(1 - p) \\
+    \hat{p}_n = \arg\max_{p \in [0; 1]} \ln L(p, x_1, \ldots, x_n) \\
+    $
+
+    Нахождение максимума по аргументу: \\
+    $\displaystyle
+    \frac{d\ln L}{dp} = \frac{\displaystyle \sum_{i = 1}^n x_i}{p} + \frac{\displaystyle \sum_{i = 1}^n x_i - n}{1 - p} = 0 \\
+    (1 - p) \sum_{i = 1}^n x_i + \left( \sum_{i = 1}^n x_i - n \right) p = 0 \\
+    pn = \sum_{i = 1}^n x_i \\
+    p = \sum_{i = 1}^n \frac{x_i}{n} \\
+    $
+
+    Проверка максимума: \\
+    $\displaystyle
+    \frac{d^2 \ln L}{dp^2} = \underbrace{-\frac{\displaystyle \sum_{i = 1}^n x_i}{p^2}}_{\displaystyle \leq 0} + \underbrace{\frac{\displaystyle \sum_{i = 1}^n x_i - n}{(1 - p)^2}}_{\displaystyle \leq 0} \leq 0 \\
+    $
+
+    Оценка параметра $\displaystyle \hat{p}_n = \sum_{i = 1}^n \frac{x_i}{n} = \overline{x}$
+
+    \section{Генерация выборок}
+
+    Сгенерируем выборки размеров 100 и 10000 с параметром $p = 0.25$:
+    \begin{minted}{python3}
+        data_100 = stats.bernoulli.rvs(p=0.25, size=100, random_state=random_state)
+        data_10_000 = stats.bernoulli.rvs(p=0.25, size=10_000, random_state=random_state)
+    \end{minted}
+
+    \section{Табличный результат}
+
+    \begin{table}[h!]
+        \centering
+        \label{tab:results_lines}
+        \small
+        % Символ | между буквами l и c создает вертикальную линию
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Размер выборки} & \textbf{Истинный параметр} & \textbf{Оценка метода} & \textbf{Оценка метода} \\ 
+                                    &                            & \textbf{моментов}               & \textbf{максимального момента} \\ \hline
+            100 & 0.25 & 0.2700 & 0.2700 \\ \hline
+            10000 & 0.25 & 0.2412 & 0.2412 \\ \hline
+        \end{tabular}
+    \end{table}
+\end{document}
