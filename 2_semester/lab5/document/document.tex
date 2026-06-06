@@ -1,0 +1,240 @@
+\documentclass[a4paper,14pt]{extarticle}
+
+\usepackage[left=30mm, right=10mm, top=20mm, bottom=20mm]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\usepackage{minted}
+\usepackage{xcolor}
+
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{tempora}
+\usepackage{type1cm}
+\usepackage{indentfirst}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+\usepackage[russian]{cleveref}
+\usepackage{bookmark}
+
+\pgfplotsset{compat=1.18}
+
+\onehalfspacing
+
+\renewcommand{\theFancyVerbLine}{%
+	\sffamily\small\color{black}\arabic{FancyVerbLine}%
+}
+
+\definecolor{codebg}{rgb}{0.12,0.12,0.14}
+\definecolor{codeframe}{rgb}{0.40,0.40,0.45}
+\definecolor{keywordcolor}{rgb}{0.45,0.65,1.0}
+\definecolor{stringcolor}{rgb}{1.0,0.55,0.45}
+\definecolor{commentcolor}{rgb}{0.55,0.75,0.60}
+\definecolor{textcolor}{rgb}{0.90,0.90,0.90}
+
+\setminted{
+    bgcolor=codebg,
+	fillcolor=codebg,
+	framesep=1em,
+	frame=single,
+    rulecolor=\color{codeframe},
+    fontsize=\normalsize,
+    baselinestretch=1.1,
+    linenos,
+    numbersep=6pt,
+    tabsize=4,
+    breaklines,
+    breakbytoken,
+	breaksymbolleft={},
+    autogobble,
+    showspaces=false,
+    showtabs=false,
+}
+
+\usemintedstyle{lightbulb}
+\setmintedinline{
+    bgcolor=codebg
+}
+
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{8pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\newcommand{\circledequals}{\mathbin{\tikz \node[draw,circle,inner sep=1pt] {$=$};}}
+
+\DeclareMathOperator{\Bernoulli}{Bernoulli}
+
+\begin{document}
+    \begin{titlepage}
+		\centering
+		
+		\includegraphics{images/FEFU-logo.jpg}\\
+		МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ\\
+		Федеральное государственное автономное образовательное учреждение высшего образования\\
+		\textbf{«Дальневосточный федеральный университет»}
+
+		\rule{\linewidth}{0.8mm}\\[0.3cm]
+		
+		\textbf{ИНСТИТУТ МАТЕМАТИКИ И КОМПЬЮТЕРНЫХ ТЕХНОЛОГИЙ}\\
+		\textbf{Кафедра математического и компьютерного моделирования}\\
+		\vspace*{0.9cm}
+		
+		Кулахсзян Сергей Грайрович\\
+        \vspace*{0.3cm}
+
+		ТЕСТИРОВАНИЕ ГИПОТЕЗЫ О СРЕДНЕМ \\
+		\vspace*{0.3cm}
+
+		\textbf{ЛАБОРАТОРНАЯ РАБОТА № 5}\\
+		\vspace*{0.3cm}
+		
+		Направление подготовки 02.03.01сцт Сквозные цифровые технологии,\\ 
+        бакалавриатская программа «Математика и компьютерные науки»\\ 
+        Очной формы обучения\\
+		\vspace{1.5cm}
+
+		
+		\vfill
+		\centering
+		г. Владивосток\\
+		2026
+	\end{titlepage}
+
+    \tableofcontents
+	\newpage
+
+    \section{Реализация функции z-теста и t-теста}
+
+    Если дисперсия известна, то применяется z-тест: \\
+    $\displaystyle
+    H_0: \mu = \mu_0 \\
+    H_1: \mu \neq \mu_0;~ \mu > \mu_0;~ \mu < \mu_0 \\
+    z = \frac{(\overline{X} - \mu_0) \sqrt{n}}{\sigma} \\
+    p = \begin{cases}
+        1 - \Phi(z), & H_1: \mu > \mu_0 \\
+        \Phi(z), & H_1: \mu < \mu_0 \\
+        2\Phi(-|z|), & H_1: \mu \neq \mu_0
+    \end{cases} \\
+    \Phi(z) = \frac{1}{\sqrt{2\pi}} \int_0^x e^{-\frac{t^2}{2}} dt
+    $
+
+    Если дисперсия неизвестна, то применяется t-тест: \\
+    $\displaystyle
+    H_0: \mu = \mu_0 \\
+    H_1: \mu \neq \mu_0;~ \mu > \mu_0;~ \mu < \mu_0 \\
+    t = \frac{(\overline{X} - \mu_0) \sqrt{n}}{\hat{\sigma}_X} \\
+    \hat{\sigma}_X = \sqrt{\sum_{i = 1}^n \frac{(X_i - \overline{X})^2}{n - 1}} \\
+    p = \begin{cases}
+        1 - F_{T_{n - 1}}(t), & H_1: \mu > \mu_0 \\
+        F_{T_{n - 1}}(t), & H_1: \mu < \mu_0 \\
+        2F_{T_{n - 1}}(-|t|), & H_1: \mu \neq \mu_0
+    \end{cases} \\
+    F_{T_{n}} = \frac{1}{2} + x\Gamma \left( \frac{n + 1}{2} \right) \cdot \frac{\displaystyle {}_2F_1 \left( \frac{1}{2};~ \frac{n + 1}{2};~ \frac{3}{2} ;~ -\frac{x^2}{n} \right)}{\displaystyle \sqrt{\pi n} \Gamma \left( \frac{n}{2} \right)}
+    $
+
+    Моя реализация:
+    \begin{minted}{python}
+        def test_mean(X_n: List[float], mu_0: float, alternative: str, std: float = None) -> float:
+            def Phi(x: float) -> float:
+                return sps.norm.cdf(x) - 0.5
+
+            def F_T_n(x: float, n: int) -> float:
+                return 0.5 + x * gamma((n + 1) / 2) * hyp2f1(0.5, (n + 1) / 2, 1.5, -x ** 2 / n) / (np.sqrt(np.pi * n) * gamma(n / 2))
+
+
+            n = len(X_n)
+            X_mean = sum(X_n) / n
+            if std is None:
+                std = np.sqrt(sum((X - X_mean) ** 2 for X in X_n) / (n - 1))
+                F = lambda x: F_T_n(x, n - 1)
+            else:
+                F = Phi
+
+            t = (X_mean - mu_0) * np.sqrt(n) / std
+
+            match alternative:
+                case "less":
+                    return F(t)
+                case "greater":
+                    return 1 - F(t)
+                case "two-sided":
+                    return 2 * F(-np.abs(t))
+                case _:
+                    raise ValueError(f"Unknown alternative: {alternative}")
+    \end{minted}
+
+    \section{Задача 1}
+
+    Установлено, что средний вес таблетки лекарства сильного действия должен быть равен $a_0 = 0,50$ мг. 
+    Выборочная проверка 121 таблетки полученной партии лекарства показала, что средний вес таблетки этой партии $\overline{x} = 0,53$ мг. 
+    Требуется при уровне значимости $0,01$ проверить нулевую гипотезу $H_0: a = a_0 = 0,50$ при конкурирующей гипотезе $H_1: a > 0,50$. 
+    Многократными предварительными опытами по взвешиванию таблеток, представляемых фармацевтическим заводом, было установлено, что вес таблеток распределён нормально со средним квадратичным отклонением $\sigma = 0,11$ мг.
+
+    Решение:
+    \begin{minted}{python}
+        pvalue = test_mean([0.53] * 121, 0.5, "greater", 0.11)
+        print(pvalue > 0.01)
+    \end{minted}
+
+    Вывод в консоли:
+    \begin{minted}{python}
+        p-значение = 0.5013498980316301, выполнение H_0: True
+    \end{minted}
+
+    Ответ: Так как $p$-значение $> \alpha = 0.01$, то гипотезу $H_0$ принимаем.
+
+    \section{Задача 2}
+
+    Проектный контролируемый размер изделий, изготовляемых станком-автоматом, $a = a_0 = 35$ мм. 
+    Измерения 20 случайно отобранных изделий дали следующие результаты:
+    \begin{table}[ht!]
+        \centering
+        \begin{tabular}{cc}
+            \toprule
+            \textbf{контролируемый размер} $x_i$ & \textbf{частота (число изделий)} $n_i$ \\
+            \midrule
+            34,8 & 2 \\
+            34,9 & 3 \\
+            35,0 & 4 \\
+            35,1 & 6 \\
+            35,3 & 5 \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+
+    Требуется при уровне значимости $0,05$ проверить нулевую гипотезу $H_0: a = a_0 = 35$ при конкурирующей гипотезе $H_1: a \neq 35$
+
+    Решение:
+    \begin{minted}{python}
+        X_n = [34.8] * 2 + [34.9] * 3 + [35] * 4 + [35.1] * 6 + [35.3] * 5
+
+        pvalue = test_mean(X_n, 35, "two-sided")
+        print(f"Моя функция: p-значение = {pvalue}, выполнение H_0: {pvalue > 0.05}")
+
+        _, pvalue = sps.ttest_1samp(X_n, popmean=35)
+        print(f"SciPy: p-значение = {pvalue}, выполнение H_0: {pvalue > 0.05}")
+    \end{minted}
+
+    Вывод в консоли:
+    \begin{minted}{python}
+        Моя: p-значение = 0.07430101762236851, выполнение H_0: True
+        SciPy: p-значение = 0.07430101762239591, выполнение H_0: True
+    \end{minted}
+
+    Ответ: Так как $p$-значение $> \alpha = 0.05$, то гипотезу $H_0$ принимаем
+\end{document}

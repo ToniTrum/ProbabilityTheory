@@ -29,6 +29,8 @@
 \usepackage[russian]{cleveref}
 \usepackage{bookmark}
 
+\pgfplotsset{compat=1.18}
+
 \onehalfspacing
 
 \renewcommand{\theFancyVerbLine}{%
@@ -136,8 +138,8 @@
     X \sim Bernoulli(p): X_1, X_2, \ldots, X_n \\
     F_X \in \{F_X(x, p) | p \in [0; 1] \} \\
     p_X(x) = p^x (1 - p)^{1 - x} \\
-    L(p, x_1, \ldots, x_n) = \prod_{i = 1}^n p^{x_i} (1 - p)^{1 - x_i} = p^{\displaystyle \sum_{i = 1}^n x_i} (1 - p)^{\displaystyle n - \sum_{i = 1}^n x_i} \\
-    \ln L(p, x_1, \ldots, x_n) = \ln \left( p^{\displaystyle \sum_{i = 1}^n x_i} (1 - p)^{\displaystyle n - \sum_{i = 1}^n x_i} \right) = \\ \sum_{i = 1}^n x_i \ln p + \left( n - \sum_{i = 1}^n x_i \right) \ln(1 - p) \\
+    L(p, x_1, \ldots, x_n) = \prod_{i = 1}^n p^{x_i} (1 - p)^{1 - x_i} = p^{\scriptstyle \sum\limits_{i = 1}^n x_i} (1 - p)^{\scriptstyle n - \sum\limits_{i = 1}^n x_i} \\
+    \ln L(p, x_1, \ldots, x_n) = \ln \left( p^{\scriptstyle \sum\limits_{i = 1}^n x_i} (1 - p)^{\scriptstyle n - \sum\limits_{i = 1}^n x_i} \right) = \\ \sum_{i = 1}^n x_i \ln p + \left( n - \sum_{i = 1}^n x_i \right) \ln(1 - p) \\
     \hat{p}_n = \arg\max_{p \in [0; 1]} \ln L(p, x_1, \ldots, x_n) \\
     $
 
